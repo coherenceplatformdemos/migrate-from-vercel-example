@@ -1,7 +1,6 @@
 import 'server-only';
-
-import { neon } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-http';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { Pool } from 'pg';
 import {
   pgTable,
   text,
@@ -14,7 +13,13 @@ import {
 import { count, eq, ilike } from 'drizzle-orm';
 import { createInsertSchema } from 'drizzle-zod';
 
-export const db = drizzle(neon(process.env.DATABASE_URL!));
+// Create a pool
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
+
+// Create the db instance
+export const db = drizzle(pool);
 
 export const statusEnum = pgEnum('status', ['active', 'inactive', 'archived']);
 
@@ -51,15 +56,12 @@ export async function getProducts(
       totalProducts: 0
     };
   }
-
   if (offset === null) {
     return { products: [], newOffset: null, totalProducts: 0 };
   }
-
   let totalProducts = await db.select({ count: count() }).from(products);
   let moreProducts = await db.select().from(products).limit(5).offset(offset);
   let newOffset = moreProducts.length >= 5 ? offset + 5 : null;
-
   return {
     products: moreProducts,
     newOffset,
