@@ -2,8 +2,6 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "check-env": "node check-env.js",
-    "prebuild": "npm run check-env",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
