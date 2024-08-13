@@ -52,7 +52,7 @@ export default function DashboardLayout({
             {children}
           </main>
         </div>
-        <Analytics />
+        {/* <Analytics /> */}
       </main>
     </Providers>
   );
