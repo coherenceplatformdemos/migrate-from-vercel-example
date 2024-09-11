@@ -1,7 +1,5 @@
 import './globals.css';
 
-import { Analytics } from '@vercel/analytics/react';
-
 export const metadata = {
   title: 'Next.js App Router + NextAuth + Tailwind CSS',
   description:
@@ -16,7 +14,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex min-h-screen w-full flex-col">{children}</body>
-      <Analytics />
     </html>
   );
 }
